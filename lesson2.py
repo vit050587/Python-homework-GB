@@ -4,10 +4,10 @@
 # Элементы списка можно не запрашивать у пользователя, а указать явно, в программе.
 
 
-#spisok = [99, -77, 12.5, 'str', False, None]
+spisok = [99, -77, 12.5, 'str', False, None]
 
 
-def type_chek(el):364
+def type_chek(el):
     for el in range(len(spisok)):
         print(type(spisok[el]))
     return
