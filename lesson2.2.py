@@ -3,4 +3,15 @@
 # При нечетном количестве элементов последний сохранить на своем месте.
 # Для заполнения списка элементов необходимо использовать функцию input().
 
+quant = int(input("Введите количество элементов списка: "))
+spisok = []
+i = 0
+el = 0
+while i < quant:
+    spisok.append(input("Введите значение списка: "))
+    i += 1
 
+for element in range(int(len(spisok) / 2)):
+    spisok[el], spisok[el + 1] = spisok[el + 1], spisok[el]
+    el += 2
+print(spisok)
