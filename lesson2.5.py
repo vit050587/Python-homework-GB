@@ -11,11 +11,13 @@
 
 spisok = [7, 5, 3, 3, 2]
 print(f"Рейтинг: {spisok}")
-i = int(input("Введите число: "))
+i = float(input("Введите число: "))
 while i:
     for el in range(len(spisok)):
         if spisok[el] == i:
-            spisok.insert(el + 1, i)
+            spisok.insert(el, i) # Добавляет цифру, если она уже есть, не по условию задачи.Поменяйте строку 3 и проверьте цифрой
+                                 # была ошибка в строке (el +1, i) тем самым отодвигал введенную цифру вперед по списку - соответственно вправо.
+                                 # i = float(input("Введите число: "))
             break
         elif spisok[0] < i:
             spisok.insert(0, i)
@@ -25,3 +27,19 @@ while i:
             spisok.insert(el + 1, i)
     print(f"Обновленный рейтинг: {spisok}")
     i = int(input("Введите число: "))
+
+
+
+# -------------------------Решение GB--------------------------------------
+
+my_list = [9, 8, 7, 7, 7, 6, 5, 3, 3, 3, 2, 1]
+new_namber = int(input('Введите новый элемент рейтинга в виде натурального числа: '))
+i = 0
+for n in my_list:
+    if new_namber <= n:
+        i += 1
+    else:
+        break
+my_list.insert(i, new_namber)
+print(my_list)
+
