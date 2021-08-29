@@ -15,3 +15,10 @@ for element in range(int(len(spisok) / 2)):
     spisok[el], spisok[el + 1] = spisok[el + 1], spisok[el]
     el += 2
 print(spisok)
+
+# ----------------------------------------------------------------------
+
+my_list = list(input("Enter the number without space - "))
+for i in range(1, len(my_list), 2):
+    my_list[i - 1], my_list[i] = my_list[i], my_list[i - 1]
+print(my_list)
