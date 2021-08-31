@@ -13,3 +13,4 @@ print("Ставка в час- ", staff_hour)
 print("Премия- ", prem)
 print("*" * 50)
 print("Расчет заработной платы сотрудника: ", (float(hours) * float(staff_hour)) + float(prem))
+
