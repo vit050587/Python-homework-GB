@@ -8,3 +8,24 @@
 # а при достижении числа 10 завершаем цикл.
 # Во втором также необходимо предусмотреть условие,
 # при котором повторение элементов списка будет прекращено.
+
+def func_1():
+    num = int(input('Введите стартовое число: '))
+    from itertools import islice
+    from itertools import count
+
+    for i in islice(count(num), 10):
+        print(i)
+func_1()
+
+#-------------------------------------------------------------
+
+def func_2():
+    spisok = [300, 2, 12, 44, 1, 1, 4, 10, 7, 1, 78, 123, 55]
+
+    from itertools import islice
+    from itertools import cycle
+
+    for el in islice(cycle(spisok), 10):
+        print(el)
+func_2()
