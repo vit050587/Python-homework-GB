@@ -14,3 +14,17 @@ print("Премия- ", prem)
 print("*" * 50)
 print("Расчет заработной платы сотрудника: ", (float(hours) * float(staff_hour)) + float(prem))
 
+#---------------------решения GB-----------------------------
+
+from sys import argv
+
+
+def salary():
+    try:
+        time, rate, bonus = map(float, argv[1:])
+        print(f"Salary - {time * rate + bonus}")
+    except ValueError:
+        print("Enter all 3 numbers. Not string or empty character.")
+
+
+salary()
