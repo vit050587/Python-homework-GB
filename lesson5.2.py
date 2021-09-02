@@ -2,7 +2,6 @@
 # выполнить подсчет количества строк, количества слов в каждой строке.
 
 
-
 def words_func():
     try:
         with open('file.txt', 'r', encoding="utf-8") as file:
@@ -12,7 +11,7 @@ def words_func():
                 str_num = list[i].split()
                 print(f'Количество слов в {i + 1}-ой строке: {len(str_num)}')
     except FileNotFoundError:
-        return 'Файл не найден.'
+        return 'Err!!!'
 
 
 words_func()

@@ -13,3 +13,18 @@
 # Пример словаря:
 # {“Информатика”: 170, “Физика”: 40, “Физкультура”: 30}
 
+def subjects_func():
+    try:
+        my_dict = {}
+        with open("file_6.txt", encoding='utf-8') as file_subject:
+            for line in file_subject:
+                subject, lessons = line.split(':')
+                lessons_sum = sum(map(int, ''.join(
+                    [i for i in lessons if i == ' ' or ('0' <= i <= '9')]).split()))
+                my_dict[subject] = lessons_sum
+            print(f"{my_dict}")
+    except FileNotFoundError:
+        return 'Err!!!'
+
+
+subjects_func()

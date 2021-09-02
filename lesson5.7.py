@@ -17,3 +17,38 @@
 #
 # Подсказка: использовать менеджеры контекста.
 
+import json
+
+
+def company_func():
+    try:
+        with open('file_7.txt', 'r+', encoding='utf-8') as file:
+            statistics = []
+            profit_dict = {}
+            profit_ave = {}
+            av = 0
+            val = 0
+            i = 4
+            for line in file:
+                firm, form, profit, waste = line.split()
+                margin = int(profit) - int(waste)
+                if margin >= 0:
+                    val = val + margin
+                else:
+                    i -= 1
+                profit_dict[firm] = margin
+            statistics.append(profit_dict)
+            if i != 0:
+                (av) = val / i
+                profit_ave['profit_ave'] = round(av)
+                statistics.append(profit_ave)
+            else:
+                print('Все компании работают в убыток!')
+            print(statistics)
+        with open('file_7.json', 'a+', encoding='utf-8') as json_file:
+            json.dump(statistics, json_file)
+    except FileNotFoundError:
+        return 'Err!!!'
+
+
+company_func()
