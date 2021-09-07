@@ -8,3 +8,29 @@
 # Задачу можно усложнить, реализовав проверку порядка режимов, и при его нарушении выводить соответствующее сообщение и завершать скрипт.
 
 
+import time
+
+
+class TrafficLight:
+    __color = 'Красный'
+    print('Светофор работает')
+
+    def running(self):
+        self.__color = 'Красный'
+        print(f'Установлен цвет: {self.__color}')
+        time.sleep(7)
+
+        self.__color = 'Желтый'
+        print(f'Установлен цвет: {self.__color}')
+        time.sleep(2)
+
+        self.__color = 'Зеленый'
+        print(f'Установлен цвет: {self.__color}')
+        time.sleep(7)
+
+        while True:
+            self.running()
+
+
+traff_light = TrafficLight()
+print(traff_light.running())
