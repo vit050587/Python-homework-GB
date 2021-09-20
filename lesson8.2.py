@@ -5,17 +5,17 @@
 # с ошибкой.
 
 
-class MyZeroDivisionError(Exception):
-    text = "На ноль делить нельзя!"
+class OneZeroDivisionError(Exception):
+    sms = "На ноль делить нельзя!"
 
     def __str__(self):
-        return self.text
+        return self.sms
 
 
 class Number(float):
     def __truediv__(self, other):
         if other is not None and not other:
-            raise MyZeroDivisionError
+            raise OneZeroDivisionError
 
         return Number(float(self) / float(other))
 
@@ -23,11 +23,11 @@ class Number(float):
 if __name__ == '__main__':
     while True:
         try:
-            dividend, divider = map(Number, input(
+            num_1, num_2 = map(Number, input(
                 "Введите делимое / делитель: ").split('/'))
-            print(dividend / divider)
-        except MyZeroDivisionError as e:
-            print(e)
-        except ValueError as e:
-            print(e)
+            print(num_1 / num_2)
+        except OneZeroDivisionError as result:
+            print(result)
+        except ValueError as result:
+            print(result)
             break

@@ -7,27 +7,27 @@
 
 
 class AppError(Exception):
-    def __init__(self, text):
-        self.text = text
+    def __init__(self, sms):
+        self.sms = sms
 
     def __str__(self):
-        return self.text
+        return self.sms
 
 
 class AcceptStorageError(AppError):
-    def __init__(self, text):
-        self.text = f"Невозможно добавить товар на склад:\n {text}"
+    def __init__(self, sms):
+        self.sms = f"Невозможно добавить товар на склад:\n {sms}"
 
 
 class TransferStorageError(AppError):
     def __init__(self, text):
-        self.text = f"Ошибка прередачи оборудования:\n {text}"
+        self.sms = f"Ошибка прередачи оборудования:\n {sms}"
 
 
 AddStorageError = AcceptStorageError
 
 
-class ValidateEquipmentError(AppError):
+class ValidateDeviceError(AppError):
     pass
 
 
@@ -35,20 +35,20 @@ class Storage:
     def __init__(self):
         self.__storage = []
 
-    def add(self, equipments):
-        if not all([isinstance(equipment, OfficeEquipment) for equipment in equipments]):
-            raise AddStorageError(f"Вы пытаетесь добавить на склад не оргтехнику")
+    def add(self, devices):
+        if not all([isinstance(device, OfficeDevice) for device in devices]):
+            raise AddStorageError(f"Устройство не является офисным!")
 
-        self.__storage.extend(equipments)
+        self.__storage.extend(devices)
 
     def transfer(self, idx: int, department: str):
         if not isinstance(idx, int):
-            raise TransferStorageError(f"Недопустимый тип '{type(item)}'")
+            raise TransferStorageError(f"Ошибка типа данных '{type(item)}'")
 
-        item: OfficeEquipment = self.__storage[idx]
+        item: OfficeDevice = self.__storage[idx]
 
         if item.department:
-            raise TransferStorageError(f"Оборудование {item} уже закреплено за отделом {item.department}")
+            raise TransferStorageError(f"Устройство {item} закреплено за отделом {item.department}")
 
         item.department = department
 
@@ -73,15 +73,18 @@ class Storage:
         return self.__storage.__iter__()
 
     def __str__(self):
-        return f"На складе сейчас {len(self.__storage)} устройств"
+        return f"На складе: {len(self.__storage)} устройства"
 
 
-class OfficeEquipment:
-    __required_props = ("eq_type", "vendor", "model")
+print('-' * 70)
 
-    def __init__(self, eq_type: str = None, vendor: str = "", model: str = ""):
+
+class OfficeDevice:
+    __required_props = ("type", "company", "model")
+
+    def __init__(self, eq_type: str = None, company: str = "", model: str = ""):
         self.type = eq_type
-        self.vendor = vendor
+        self.company = company
         self.model = model
 
         self.department = None
@@ -93,12 +96,12 @@ class OfficeEquipment:
         object.__setattr__(self, key, value)
 
     def __str__(self):
-        return f"{self.type} {self.vendor} {self.model}"
+        return f"{self.type} {self.company} {self.model}"
 
     @staticmethod
     def validate(cnt):
         if not isinstance(cnt, int):
-            ValidateEquipmentError(f"'{type(cnt)}'; количество инстансов должен быть типа 'int'")
+            ValidateDeviceError(f"'{type(cnt)}'; количество инстансов должен быть типа 'int'")
 
     @classmethod
     def create(cls, cnt, **properties):
@@ -106,37 +109,40 @@ class OfficeEquipment:
         return [cls(**properties) for _ in range(cnt)]
 
 
-class Printer(OfficeEquipment):
+class Printer(OfficeDevice):
     def __init__(self, **kwargs):
         super().__init__(eq_type='Printer', **kwargs)
 
 
-class Scanner(OfficeEquipment):
+class Scanner(OfficeDevice):
     def __init__(self, **kwargs):
         super().__init__(eq_type='Scanner', **kwargs)
 
 
-class Xerox(OfficeEquipment):
+class Xerox(OfficeDevice):
     def __init__(self, **kwargs):
         super().__init__(eq_type='Xerox', **kwargs)
 
 
 if __name__ == '__main__':
     storage = Storage()
-    storage.add(Printer.create(4, vendor="Epson", model="XP-400"))
-    storage.add(Scanner.create(3, vendor="OKI", model="5367-AD"))
-    storage.add(Scanner.create(2, vendor="OKI", model="5368-AD"))
-    storage.add(Xerox.create(6, vendor="Xerox", model="F123"))
+    storage.add(Printer.create(1, company="HP", model="LaserJet P1102W"))
+    storage.add(Scanner.create(1, company="Epson", model="M3336"))
+    storage.add(Xerox.create(1, company="Kyocera", model="ECOSIS"))
     print(storage)
 
-    for idx, itm in storage.filter_by(department=None, vendor="OKI", model="5367-AD"):
-        print(f"Резервируем {itm} в 'Отдел ЯФ'")
-        storage.transfer(idx, 'Отдел ЯФ')
+    for idx, itm in storage.filter_by(department=None, company="Kyocera", model="ECOSIS"):
+        print(f"Резервируем {itm} в Отдел логистики")
+        storage.transfer(idx, 'Отдел логистики')
 
     for idx, itm in storage.filter_by(department=None):
         print(idx, f"{itm} не распределены по отделам")
 
+    print('-' * 70)
     print(storage)
+    print('-' * 70)
     print("Списываем 1 устройство")
+    print('-' * 70)
     del storage[0]
     print(storage)
+    print('-' * 70)

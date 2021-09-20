@@ -10,28 +10,24 @@ class Storage:
     pass
 
 
-class OfficeEquipment:
+class OfficeDevice:
     vat = 0.13
     added_value = 2.0
     retail_rate = 1.3
 
     def __init__(
             self,
-            eq_type: str,
-            vendor: str,
+            type: str,
+            company: str,
             model: str,
-            color: str,
             purchase_price: float,
     ):
-        self.type = eq_type
-        self.vendor = vendor
+        self.type = type
+        self.company = company
         self.model = model
-        self.color = color
-
         self.purchase_price = purchase_price
-
-        self.printable = True if self.type in ("printer", "xerox") else False
-        self.scannable = True if self.type in ("scanner", "xerox") else False
+        self.print = True if self.type in ("printer", "xerox") else False
+        self.scan = True if self.type in ("scanner", "xerox") else False
 
     @property
     def retail_price(self):
@@ -42,33 +38,33 @@ class OfficeEquipment:
         return self.purchase_price * (1 + self.vat) * (1 + self.added_value)
 
     def __str__(self):
-        return f"{self.type} {self.vendor} {self.model} ({self.color})"
+        return f"{self.type} {self.company} {self.model}"
 
 
-class Printer(OfficeEquipment):
-    printable = True
-    scannable = False
+class Printer(OfficeDevice):
+    print = True
+    scan = False
 
     def __init__(self, *args):
         super().__init__('Принтер', *args)
 
 
-class Scanner(OfficeEquipment):
-    printable = False
-    scannable = True
+class Scanner(OfficeDevice):
+    print = False
+    scan = True
 
     def __init__(self, *args):
-        super().__init__('scanner', *args)
+        super().__init__('Сканер', *args)
 
 
-class Xerox(OfficeEquipment):
-    printable = True
-    scannable = True
+class Xerox(OfficeDevice):
+    print = True
+    scan = True
 
     def __init__(self, *args):
-        super().__init__('xerox', *args)
+        super().__init__('Ксерокс', *args)
 
 
 if __name__ == '__main__':
-    p1 = Printer("Epson", "XP-400", "white", 4000)
+    p1 = Printer("HP", "LaserLet P1102W", 4000)
     print(p1)

@@ -25,12 +25,12 @@ class Data:
     @staticmethod
     def valid(data):
         try:
-            day, month, year = data.split('-')
+            day, month, year = data.split(':')
             date(int(year), int(month), int(day))
             return 'Дата существует!'
         except ValueError:
             return 'Верная дата!'
 
 
-print(Data.valid('25:02:2015'))
-print(Data.type('25:02'))
+print(Data.valid('05:05:1987'))
+print(Data.type('05:05'))

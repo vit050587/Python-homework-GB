@@ -19,30 +19,30 @@
 
 
 
-class NotNumberError(Exception):
-    def __init__(self, text):
-        self.text = text
+class OneNumberError(Exception):
+    def __init__(self, sms):
+        self.sms = sms
 
     def __str__(self):
-        return self.text
+        return self.sms
 
 
 if __name__ == '__main__':
-    my_list = []
+    result = []
 
     while True:
-        user_input = input("Введите число для заполнения списка, или 'stop' для выхода: ")
+        user_input = input("Введите число и нажмите Enter, или 'stop' для выхода: ")
 
         if user_input == "stop":
             break
 
         try:
             if not user_input.isdigit():
-                raise NotNumberError(f"'{user_input}' введен не числовой формат")
+                raise OneNumberError(f"'{user_input}' введен не числовой формат")
 
-            my_list.append(int(user_input))
-        except NotNumberError as e:
-            print(e)
+            result.append(int(user_input))
+        except OneNumberError as num:
+            print(num)
 
-    print(my_list)
+    print(result)
 
